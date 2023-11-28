@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Results</title>
+</head>
+<body style="background-color: lightskyblue;">
+<h1 style="text-align: center"><strong>prediction Results</strong></h1>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Image</th>
+      <th scope="col">Image Name</th>
+      <th scope="col">Cancer Type</th>
+      <th scope="col">Probability</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in range(data["image_name"]|length) %}
+  <tr>
+      <td><img src="{{ data["image_name"][i] }}" style="height: 200px; width: 200px"></td>
+      <td>{{ data["image_name"][i] }}</td>
+      <td>{{ data["Labels"][i] }}</td>
+      <td>{{ data["Probs"][i] }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<br>
+<h4 style="text-align: center"><strong>Throughput for given image or images: </strong><mark><strong>{{ tput }}</strong></mark> images per second.</h4>
+<h4 style="text-align: center"><strong>Latency: </strong><mark><strong>{{ latency }}</strong></mark> Seconds per image.</h4>
+<h4 style="text-align: center"><strong>Total time taken: </strong><mark><strong>{{ lenght }}</strong></mark> Seconds.</h4>
+<a class="btn btn-primary" href="{{ url_for('go_back') }}" role="button">Back</a>
+</body>
+</html>
