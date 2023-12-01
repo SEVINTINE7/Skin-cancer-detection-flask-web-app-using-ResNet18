@@ -66,4 +66,4 @@ jobs:
         with:
           app-name: 'skincancerdetector1'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_59F24C8A63664DAA9A6686181CAF7551 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_60D154DF95F44BD881D3E4D40A3829B6 }}
