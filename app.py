@@ -5,6 +5,7 @@ from torchvision import transforms
 import torch
 from pathlib import Path
 from timeit import default_timer as timer
+import os
 
 app = Flask(__name__)
 
@@ -14,9 +15,10 @@ def home():
     return render_template('System_Fundamental.html', result=None)
 
 
+remov_directory = []
 
 @app.route('/predict', methods=['POST'])
-def predict():
+def predict(remov_directory=remov_directory):
     model_path = Path("model/Model2.pth")
 
     # Define the class names for predictions
@@ -49,10 +51,16 @@ def predict():
     probs = []
     image_paths = []
 
-    start_time = timer()
+    
+    
 
+    if not os.path.exists('static'):
+        os.mkdir('static')
+
+    start_time = timer()
     for image in images:
         img_path = "static/" + image.filename
+        remov_directory.append(img_path)
         image.save(img_path)
         try:
             final = pred_and_plot_image(class_names=class_names,
@@ -64,7 +72,7 @@ def predict():
         except Exception as e:
             print("Exception: ",str(e))
         image_paths.append(img_path)
-
+        
     end_time = timer()
     total_time = end_time - start_time
     data = {"image_name": image_paths,
@@ -83,9 +91,12 @@ def predict():
 
 
 @app.route('/goback')
-def go_back():
+def go_back(remov_directory=remov_directory):
+    for i in remov_directory:
+        os.remove(i)
+    del remov_directory[:]
     return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
